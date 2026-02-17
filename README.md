@@ -67,6 +67,7 @@ cp examples/dev.tfvars.example terraform/dev.tfvars
 Edit `terraform/dev.tfvars`:
 - `project_name` (must be unique enough for S3 bucket naming)
 - `allowed_ssh_cidr` (your trusted IP range, never `0.0.0.0/0`)
+- `enable_guardduty` / `enable_security_hub` (set to `true` only if your AWS account and region allow these services)
 
 ### Basic Usage
 
@@ -92,9 +93,9 @@ terraform output guardduty_detector_id
 terraform output security_hub_enabled
 ```
 
-### Demo Runbook
-
-See [DEMO.md](./DEMO.md) for a 10-minute interview-ready walkthrough.
+If your account blocks GuardDuty/Security Hub, keep:
+- `enable_guardduty = false`
+- `enable_security_hub = false`
 
 ### CI for Forks
 
@@ -128,7 +129,6 @@ Plan job requires AWS credentials via OIDC role assumption.
 │       └── monitoring_security/ # CloudTrail, GuardDuty, Security Hub
 ├── .github/workflows/       # CI/CD pipelines
 ├── tests/                   # Guardrail and verification tests
-├── DEMO.md                  # 10-minute demo script
 └── examples/                # Usage examples
 ```
 
