@@ -29,6 +29,37 @@ variable "owner" {
   default     = "DevSecOps Team"
 }
 
+# Runtime Security Variables
+variable "enable_runtime_security" {
+  description = "Enable runtime security baseline (CloudTrail, GuardDuty, Security Hub)"
+  type        = bool
+  default     = true
+}
+
+variable "enable_cloudtrail" {
+  description = "Enable CloudTrail in runtime security module"
+  type        = bool
+  default     = true
+}
+
+variable "enable_guardduty" {
+  description = "Enable GuardDuty in runtime security module"
+  type        = bool
+  default     = true
+}
+
+variable "enable_security_hub" {
+  description = "Enable Security Hub in runtime security module"
+  type        = bool
+  default     = true
+}
+
+variable "cloudtrail_log_retention_days" {
+  description = "CloudWatch retention for CloudTrail log group"
+  type        = number
+  default     = 90
+}
+
 # Networking Variables
 variable "vpc_cidr" {
   description = "CIDR block for VPC"

@@ -44,6 +44,20 @@ module "security" {
   environment  = var.environment
 }
 
+# Monitoring & Runtime Security Module
+module "monitoring_security" {
+  source = "./modules/monitoring_security"
+  count  = var.enable_runtime_security ? 1 : 0
+
+  project_name                  = var.project_name
+  environment                   = var.environment
+  kms_key_arn                   = module.security.kms_key_arn
+  enable_cloudtrail             = var.enable_cloudtrail
+  enable_guardduty              = var.enable_guardduty
+  enable_security_hub           = var.enable_security_hub
+  cloudtrail_log_retention_days = var.cloudtrail_log_retention_days
+}
+
 # Compute Module - EC2 Instances (Optional)
 module "compute" {
   source = "./modules/compute"

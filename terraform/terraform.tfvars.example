@@ -9,6 +9,13 @@ project_name = "secure-foundation"
 environment  = "dev"
 owner        = "DevSecOps Team"
 
+# Runtime Security Configuration
+enable_runtime_security       = true
+enable_cloudtrail             = true
+enable_guardduty              = true
+enable_security_hub           = true
+cloudtrail_log_retention_days = 90
+
 # Networking Configuration
 vpc_cidr             = "10.0.0.0/16"
 az_count             = 2
