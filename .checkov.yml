@@ -1,0 +1,13 @@
+quiet: true
+compact: true
+skip-check:
+  # GuardDuty org/region-wide enforcement is outside this single-account baseline scope.
+  - CKV2_AWS_3
+  # Bastion SG can be optional when compute is disabled, so attachment may not be present.
+  - CKV2_AWS_5
+  # S3 event notifications are application-specific and not part of this infrastructure baseline.
+  - CKV2_AWS_62
+  # Cross-region replication is intentionally excluded for cost and complexity in this baseline.
+  - CKV_AWS_144
+  # Access logging on CloudTrail destination bucket is intentionally omitted to avoid recursive logging design.
+  - CKV_AWS_18

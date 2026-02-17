@@ -9,15 +9,17 @@ data "aws_availability_zones" "available" {
 module "networking" {
   source = "./modules/networking"
 
-  project_name         = var.project_name
-  environment          = var.environment
-  vpc_cidr             = var.vpc_cidr
-  availability_zones   = slice(data.aws_availability_zones.available.names, 0, var.az_count)
-  public_subnet_cidrs  = var.public_subnet_cidrs
-  private_subnet_cidrs = var.private_subnet_cidrs
-  allowed_ssh_cidr     = var.allowed_ssh_cidr
-  single_nat_gateway   = var.single_nat_gateway
-  enable_nat_gateway   = var.enable_nat_gateway
+  project_name            = var.project_name
+  environment             = var.environment
+  vpc_cidr                = var.vpc_cidr
+  availability_zones      = slice(data.aws_availability_zones.available.names, 0, var.az_count)
+  public_subnet_cidrs     = var.public_subnet_cidrs
+  private_subnet_cidrs    = var.private_subnet_cidrs
+  allowed_ssh_cidr        = var.allowed_ssh_cidr
+  single_nat_gateway      = var.single_nat_gateway
+  enable_nat_gateway      = var.enable_nat_gateway
+  kms_key_arn             = module.security.kms_key_arn
+  flow_log_retention_days = var.vpc_flow_log_retention_days
 }
 
 # IAM Module - Roles and Policies

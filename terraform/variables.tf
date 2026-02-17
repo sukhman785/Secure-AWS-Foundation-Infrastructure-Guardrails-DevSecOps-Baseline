@@ -57,7 +57,7 @@ variable "enable_security_hub" {
 variable "cloudtrail_log_retention_days" {
   description = "CloudWatch retention for CloudTrail log group"
   type        = number
-  default     = 90
+  default     = 365
 }
 
 # Networking Variables
@@ -93,6 +93,12 @@ variable "enable_nat_gateway" {
   description = "Enable NAT Gateway resources (set false for low-cost/free-tier style testing)"
   type        = bool
   default     = true
+}
+
+variable "vpc_flow_log_retention_days" {
+  description = "CloudWatch retention for VPC flow logs"
+  type        = number
+  default     = 365
 }
 
 variable "public_subnet_cidrs" {

@@ -135,10 +135,10 @@ resource "aws_security_group" "bastion" {
   }
 
   egress {
-    description = "Allow all outbound traffic"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    description = "Allow HTTPS outbound traffic"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -161,11 +161,18 @@ resource "aws_flow_log" "main" {
 
 resource "aws_cloudwatch_log_group" "vpc_flow_log" {
   name              = "/aws/vpc/${var.project_name}-${var.environment}"
-  retention_in_days = 30
+  retention_in_days = var.flow_log_retention_days
+  kms_key_id        = var.kms_key_arn
 
   tags = {
     Name = "${var.project_name}-${var.environment}-vpc-flow-log-group"
   }
+}
+
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_vpc.main.id
+
+  # Intentionally no ingress/egress rules to keep the default SG restricted.
 }
 
 resource "aws_iam_role" "vpc_flow_log" {

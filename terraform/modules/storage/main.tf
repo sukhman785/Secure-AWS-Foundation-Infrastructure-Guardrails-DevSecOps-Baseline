@@ -72,8 +72,18 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logging_bucket" {
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = var.kms_key_arn
     }
+    bucket_key_enabled = true
+  }
+}
+
+resource "aws_s3_bucket_versioning" "logging_bucket" {
+  bucket = aws_s3_bucket.logging_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -85,6 +95,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "secure_bucket" {
     id     = "transition-old-versions"
     status = "Enabled"
 
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+
     noncurrent_version_transition {
       noncurrent_days = 30
       storage_class   = "STANDARD_IA"
@@ -93,6 +107,23 @@ resource "aws_s3_bucket_lifecycle_configuration" "secure_bucket" {
     noncurrent_version_transition {
       noncurrent_days = 90
       storage_class   = "GLACIER"
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 365
+    }
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "logging_bucket" {
+  bucket = aws_s3_bucket.logging_bucket.id
+
+  rule {
+    id     = "logging-retention"
+    status = "Enabled"
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
     }
 
     noncurrent_version_expiration {

@@ -44,3 +44,14 @@ variable "enable_nat_gateway" {
   type        = bool
   default     = true
 }
+
+variable "kms_key_arn" {
+  description = "KMS key ARN for CloudWatch log encryption"
+  type        = string
+}
+
+variable "flow_log_retention_days" {
+  description = "Retention period for VPC flow logs"
+  type        = number
+  default     = 365
+}

@@ -109,9 +109,20 @@ resource "aws_cloudwatch_log_group" "cloudtrail" {
   count             = var.enable_cloudtrail ? 1 : 0
   name              = "/aws/cloudtrail/${var.project_name}-${var.environment}"
   retention_in_days = var.cloudtrail_log_retention_days
+  kms_key_id        = var.kms_key_arn
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-cloudtrail-log-group"
+    Environment = var.environment
+  }
+}
+
+resource "aws_sns_topic" "cloudtrail" {
+  count = var.enable_cloudtrail ? 1 : 0
+  name  = "${var.project_name}-${var.environment}-cloudtrail-alerts"
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-cloudtrail-alerts"
     Environment = var.environment
   }
 }
@@ -169,6 +180,7 @@ resource "aws_cloudtrail" "main" {
   cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.cloudtrail[0].arn}:*"
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail[0].arn
   kms_key_id                    = var.kms_key_arn
+  sns_topic_name                = aws_sns_topic.cloudtrail[0].name
 
   depends_on = [
     aws_s3_bucket_policy.cloudtrail

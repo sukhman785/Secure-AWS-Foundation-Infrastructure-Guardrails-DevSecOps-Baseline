@@ -14,7 +14,8 @@ enable_runtime_security       = true
 enable_cloudtrail             = true
 enable_guardduty              = false # Set true if GuardDuty is permitted in your account/region
 enable_security_hub           = false # Set true if Security Hub is permitted in your account/region
-cloudtrail_log_retention_days = 90
+cloudtrail_log_retention_days = 365
+vpc_flow_log_retention_days   = 365
 
 # Networking Configuration
 vpc_cidr             = "10.0.0.0/16"

@@ -21,6 +21,7 @@ resource "aws_instance" "bastion" {
   subnet_id              = var.public_subnet_ids[0]
   vpc_security_group_ids = var.security_group_ids
   iam_instance_profile   = var.instance_profile_name
+  ebs_optimized          = true
 
   # SECURITY: Metadata service v2 only (IMDSv2)
   metadata_options {
