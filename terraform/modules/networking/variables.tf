@@ -38,3 +38,9 @@ variable "single_nat_gateway" {
   type        = bool
   default     = false
 }
+
+variable "enable_nat_gateway" {
+  description = "Enable NAT Gateway resources and private subnet default internet routes"
+  type        = bool
+  default     = true
+}

@@ -17,6 +17,7 @@ module "networking" {
   private_subnet_cidrs = var.private_subnet_cidrs
   allowed_ssh_cidr     = var.allowed_ssh_cidr
   single_nat_gateway   = var.single_nat_gateway
+  enable_nat_gateway   = var.enable_nat_gateway
 }
 
 # IAM Module - Roles and Policies

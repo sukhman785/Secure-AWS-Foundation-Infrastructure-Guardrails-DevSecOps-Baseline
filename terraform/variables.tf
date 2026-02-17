@@ -89,6 +89,12 @@ variable "single_nat_gateway" {
   default     = false
 }
 
+variable "enable_nat_gateway" {
+  description = "Enable NAT Gateway resources (set false for low-cost/free-tier style testing)"
+  type        = bool
+  default     = true
+}
+
 variable "public_subnet_cidrs" {
   description = "CIDR blocks for public subnets"
   type        = list(string)

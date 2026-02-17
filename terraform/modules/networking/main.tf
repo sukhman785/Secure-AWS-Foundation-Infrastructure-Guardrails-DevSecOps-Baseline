@@ -49,7 +49,7 @@ resource "aws_subnet" "private" {
 
 # Elastic IPs for NAT Gateways
 resource "aws_eip" "nat" {
-  count  = var.single_nat_gateway ? 1 : length(var.public_subnet_cidrs)
+  count  = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : length(var.public_subnet_cidrs)) : 0
   domain = "vpc"
 
   tags = {
@@ -61,7 +61,7 @@ resource "aws_eip" "nat" {
 
 # NAT Gateways
 resource "aws_nat_gateway" "main" {
-  count         = var.single_nat_gateway ? 1 : length(var.public_subnet_cidrs)
+  count         = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : length(var.public_subnet_cidrs)) : 0
   allocation_id = aws_eip.nat[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
 
@@ -98,14 +98,18 @@ resource "aws_route_table" "private" {
   count  = length(var.private_subnet_cidrs)
   vpc_id = aws_vpc.main.id
 
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main[var.single_nat_gateway ? 0 : count.index].id
-  }
-
   tags = {
     Name = "${var.project_name}-${var.environment}-private-rt-${count.index + 1}"
   }
+}
+
+# Default private egress via NAT only when NAT is enabled
+resource "aws_route" "private_default_egress" {
+  count = var.enable_nat_gateway ? length(var.private_subnet_cidrs) : 0
+
+  route_table_id         = aws_route_table.private[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.main[var.single_nat_gateway ? 0 : count.index].id
 }
 
 # Route Table Associations for Private Subnets

@@ -67,6 +67,7 @@ cp examples/dev.tfvars.example terraform/dev.tfvars
 Edit `terraform/dev.tfvars`:
 - `project_name` (must be unique enough for S3 bucket naming)
 - `allowed_ssh_cidr` (your trusted IP range, never `0.0.0.0/0`)
+- `enable_nat_gateway` (set `false` for free-tier/no-NAT testing)
 - `enable_guardduty` / `enable_security_hub` (set to `true` only if your AWS account and region allow these services)
 
 ### Basic Usage
