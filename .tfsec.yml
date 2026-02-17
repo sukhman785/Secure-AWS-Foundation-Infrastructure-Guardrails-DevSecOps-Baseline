@@ -1,0 +1,19 @@
+# .tfsec Configuration
+# Configuration for tfsec security scanner
+
+# Minimum severity to fail on
+minimum_severity: MEDIUM
+
+# Exclude specific checks (use sparingly and document why)
+exclude:
+  # Example: Exclude check for specific reason
+  # - AWS001
+
+# Custom checks directory
+# custom_check_dir: .tfsec/custom
+
+# Include passed checks in output
+include-passed: false
+
+# Include ignored checks in output
+include-ignored: false
