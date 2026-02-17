@@ -162,6 +162,35 @@ resource "aws_sns_topic" "cloudtrail" {
   }
 }
 
+data "aws_iam_policy_document" "cloudtrail_sns_topic_policy" {
+  count = var.enable_runtime_security && var.enable_cloudtrail ? 1 : 0
+
+  statement {
+    sid    = "AllowCloudTrailPublish"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+
+    actions   = ["SNS:Publish"]
+    resources = [aws_sns_topic.cloudtrail[0].arn]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceArn"
+      values   = [local.cloudtrail_arn]
+    }
+  }
+}
+
+resource "aws_sns_topic_policy" "cloudtrail" {
+  count  = var.enable_runtime_security && var.enable_cloudtrail ? 1 : 0
+  arn    = aws_sns_topic.cloudtrail[0].arn
+  policy = data.aws_iam_policy_document.cloudtrail_sns_topic_policy[0].json
+}
+
 resource "aws_iam_role" "cloudtrail" {
   count = var.enable_runtime_security && var.enable_cloudtrail ? 1 : 0
   name  = "${var.project_name}-${var.environment}-cloudtrail-role"
@@ -219,7 +248,8 @@ resource "aws_cloudtrail" "main" {
   sns_topic_name                = aws_sns_topic.cloudtrail[0].name
 
   depends_on = [
-    aws_s3_bucket_policy.cloudtrail
+    aws_s3_bucket_policy.cloudtrail,
+    aws_sns_topic_policy.cloudtrail
   ]
 
   tags = {

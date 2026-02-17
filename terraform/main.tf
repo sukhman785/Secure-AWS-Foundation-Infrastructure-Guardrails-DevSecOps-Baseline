@@ -5,6 +5,13 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+# State migration: monitoring_security previously used `count` at module level.
+# This moves existing state addresses from module.monitoring_security[0] to module.monitoring_security.
+moved {
+  from = module.monitoring_security[0]
+  to   = module.monitoring_security
+}
+
 # Networking Module - VPC, Subnets, Security Groups
 module "networking" {
   source = "./modules/networking"

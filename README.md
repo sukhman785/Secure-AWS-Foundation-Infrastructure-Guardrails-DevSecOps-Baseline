@@ -112,6 +112,12 @@ Minimum CI path that works without AWS credentials:
 
 Plan job requires AWS credentials via OIDC role assumption.
 
+## Evidence
+
+Successful apply output from a real AWS test run:
+
+![Terraform Apply Success](assets/screenshots/terraform-apply-success.png)
+
 ## Project Structure
 
 ```
@@ -129,6 +135,7 @@ Plan job requires AWS credentials via OIDC role assumption.
 │       ├── security/        # KMS and encryption baseline
 │       └── monitoring_security/ # CloudTrail, GuardDuty, Security Hub
 ├── .github/workflows/       # CI/CD pipelines
+├── assets/screenshots/      # Demo evidence images
 ├── tests/                   # Guardrail and verification tests
 └── examples/                # Usage examples
 ```
