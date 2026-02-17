@@ -45,13 +45,13 @@ variable "enable_cloudtrail" {
 variable "enable_guardduty" {
   description = "Enable GuardDuty in runtime security module"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_security_hub" {
   description = "Enable Security Hub in runtime security module"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "cloudtrail_log_retention_days" {

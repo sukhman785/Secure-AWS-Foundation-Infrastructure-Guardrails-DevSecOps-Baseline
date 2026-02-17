@@ -4,6 +4,13 @@ project_name = "secure-foundation"
 environment  = "prod"
 owner        = "Platform Security Team"
 
+# Runtime security (set true for full baseline after validating account/service access)
+enable_runtime_security       = true
+enable_cloudtrail             = true
+enable_guardduty              = false
+enable_security_hub           = false
+cloudtrail_log_retention_days = 90
+
 vpc_cidr             = "10.30.0.0/16"
 az_count             = 2
 public_subnet_cidrs  = ["10.30.1.0/24", "10.30.2.0/24"]

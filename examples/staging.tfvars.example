@@ -4,6 +4,13 @@ project_name = "secure-foundation"
 environment  = "staging"
 owner        = "DevSecOps Team"
 
+# Runtime security (enable additional services only when account permissions allow)
+enable_runtime_security       = true
+enable_cloudtrail             = true
+enable_guardduty              = false
+enable_security_hub           = false
+cloudtrail_log_retention_days = 90
+
 vpc_cidr             = "10.20.0.0/16"
 az_count             = 2
 public_subnet_cidrs  = ["10.20.1.0/24", "10.20.2.0/24"]
