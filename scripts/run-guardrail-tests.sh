@@ -30,9 +30,9 @@ run_fixture() {
   echo "PASS: ${name}:${tfvars_file}"
 }
 
-run_fixture "ssh_cidr" "good.tfvars" "false"
-run_fixture "ssh_cidr" "bad.tfvars" "true"
-run_fixture "environment_name" "good.tfvars" "false"
-run_fixture "environment_name" "bad.tfvars" "true"
+run_fixture "ssh_cidr" "good.vars" "false"
+run_fixture "ssh_cidr" "bad.vars" "true"
+run_fixture "environment_name" "good.vars" "false"
+run_fixture "environment_name" "bad.vars" "true"
 
 echo "All guardrail tests passed."
